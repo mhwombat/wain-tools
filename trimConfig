@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Create a temporary directory for working files.
+base=${0%/*}
+TMPDIR=".${0##*/}-$$" && mkdir "$TMPDIR"
+
+find ../src -name Universe.hs | \
+    xargs grep requiredSetting | \
+    grep -E -v -e 'requiredSetting *::|requiredSetting *key' | \
+    sed 's/.*requiredSetting "//; s/"//' | \
+    sort -u > ${TMPDIR}/universeVars
+
+grep = wain.config | \
+    grep -v '^ *#' | \
+    sed 's/=.*//' | \
+    sort -u  > ${TMPDIR}/configVars
+
+diff ${TMPDIR}/universeVars ${TMPDIR}/configVars | \
+    grep -E -e '^<|^>' | \
+    sed 's/^> /Not used: /; s/^< /Missing: /'
+
+# Remove the temporary directory
+rm -rf $TMPDIR
