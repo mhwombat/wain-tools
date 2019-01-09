@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-source ./config.sh
+source wains-config
 rm -rf $alifedir && exp-dvector-ret-wains-init
 

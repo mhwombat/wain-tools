@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+source wains-config
+grep WARN $log
+wains-status | head-tail 2 10
+wains-energy | head-tail 2 10
