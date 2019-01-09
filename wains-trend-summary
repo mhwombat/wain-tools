@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 source wains-config
 colNames=$1
+scriptDir=`dirname "$0"`
 
 grep Summary $log | \
     sed 'N; N; N; N; s/\n[^,]*Summary - /,/g' | \
     sed 's/.*\t\([0-9]*\)\tSummary - /round=\1,/' | \
-    awk -f wains-trend-summary.awk "vars=$colNames"
+    awk -f ${scriptDir}/wains-trend-summary.awk "vars=$colNames"
