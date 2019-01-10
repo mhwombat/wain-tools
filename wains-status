@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 source wains-config
 columns="round,avg. age,avg. adult energy,avg. classifier num models,avg. predictor num models,avg. pop. size,avg. action err"
-wains-trend-summary "$columns" | sed 's/avg. //g; s/classifier/cl./g; s/predictor/pr./g; s/total flirted/flirted/' | csvlook
+wains-trend-summary "$columns" | sed 's/avg. //g; s/classifier/cl/g; s/predictor/pr/g; s/total flirted/flirted/; s/num /# /g; s/adult //g' | csvlook
