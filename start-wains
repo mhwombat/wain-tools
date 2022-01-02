@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-exe=`which exp-dvector-ret-wains-daemon`
+exe=$(readlink -f ../result/bin/exp-*-daemon)
 sudo $exe start
 
