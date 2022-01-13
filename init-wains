@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-source wains-config
-rm -rf $alifedir && ../result/bin/exp-*-init
-

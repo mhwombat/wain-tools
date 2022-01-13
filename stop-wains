@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-exe=$(readlink -f ../result/bin/exp-*-daemon)
-sudo $exe stop
-

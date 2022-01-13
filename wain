@@ -1,0 +1,54 @@
+#!/usr/bin/env sh
+source wains-config
+
+command=$1
+shift
+params=$*
+
+function initPop {
+    rm -rf $alifedir && ../result/bin/exp-*-init
+}
+
+function startDaemon {
+  exe=$(readlink -f ../result/bin/exp-*-daemon)
+  sudo $exe start
+}
+
+function stopDaemon {
+  exe=$(readlink -f ../result/bin/exp-*-daemon)
+  sudo $exe stop
+}
+
+function listIds {
+  ls ${dbdir} --ignore=archive
+}
+
+function genBrainReport {
+  ../result/bin/exp-*-brain-report ${dbdir}/$1
+}
+
+function genAgentCSV {
+  ../result/bin/exp-*-agent-csv ${dbdir}/$1
+}
+
+function runCommand {
+  command=$1
+  arg=$2
+  if [[ "$arg" == "all" ]]; then
+    for agent in $(ls ${dbdir} --ignore=archive); do
+        $command $agent
+    done
+  else
+    $command $arg
+  fi
+}
+
+case $command in
+    init)  initPop ;;
+    start) startDaemon ;;
+    stop)  stopDaemon ;;
+    ids)   listIds ;;
+    brain) runCommand genBrainReport $params ;;
+    csv)   runCommand genAgentCSV $params ;;
+    *)     echo "unrecognised command" ;;
+esac

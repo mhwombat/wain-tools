@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
+scriptName=$(basename "$0")
+scriptDir=$(dirname "$0")
+
+TEMPFILE=$(mktemp "${scriptName}_XXXXXXX")
+# echo "TEMPFILE=$TEMPFILE"
+
 source wains-config
-colNames=$1
-scriptDir=`dirname "$0"`
 
 grep Summary $log | \
     sed 'N; N; N; N; s/\n[^,]*Summary - /,/g' | \
-    sed 's/.*\t\([0-9]*\)\tSummary - /round=\1,/' | \
-    awk -f ${scriptDir}/wains-trend-summary.awk "vars=$colNames"
+    sed 's/.*\t\([0-9]*\)\tSummary - /round=\1,/' > $TEMPFILE
+
+colNames="round,"$(tail -n 1 $TEMPFILE | sed 's/=[^,]*,/,/g; s/^round,//')
+
+awk -f ${scriptDir}/wains-trend-summary.awk "vars=$colNames" ${TEMPFILE}
+rm -rf ${TEMPFILE}
