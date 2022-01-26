@@ -31,6 +31,10 @@ function genAgentCSV {
   ../result/bin/exp-*-agent-csv ${dbdir}/$1
 }
 
+function genBio {
+  ../result/bin/exp-*-bio ${dbdir}/$1
+}
+
 function runCommand {
   command=$1
   arg=$2
@@ -50,5 +54,6 @@ case $command in
     ids)   listIds ;;
     brain) runCommand genBrainReport $params ;;
     csv)   runCommand genAgentCSV $params ;;
+    bio)   runCommand genBio $params ;;
     *)     echo "unrecognised command" ;;
 esac
