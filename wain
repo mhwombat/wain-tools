@@ -35,6 +35,10 @@ function genBio {
   ../result/bin/exp-*-bio ${dbdir}/$1
 }
 
+function profile {
+  ../result/bin/exp-*-bio ${dbdir}/$1 +RTS -p
+}
+
 function runCommand {
   command=$1
   arg=$2
@@ -48,12 +52,13 @@ function runCommand {
 }
 
 case $command in
-    init)  initPop ;;
-    start) startDaemon ;;
-    stop)  stopDaemon ;;
-    ids)   listIds ;;
-    brain) runCommand genBrainReport $params ;;
-    csv)   runCommand genAgentCSV $params ;;
-    bio)   runCommand genBio $params ;;
-    *)     echo "unrecognised command" ;;
+    init)    initPop ;;
+    start)   startDaemon ;;
+    stop)    stopDaemon ;;
+    ids)     listIds ;;
+    brain)   runCommand genBrainReport $params ;;
+    csv)     runCommand genAgentCSV $params ;;
+    bio)     runCommand genBio $params ;;
+    profile) runCommand profile $params ;;
+    *)       echo "unrecognised command" ;;
 esac
